@@ -1,0 +1,9 @@
+<p>news list component</p>
+<form [formGroup]="form">
+    <label>Search filter: </label>
+    <input formControlName="search" />
+</form>
+<br>
+<app-presentation-news [news]="news$" (remove)="removeHandler($event)"></app-presentation-news>
+<br>
+<button [routerLink]="['create']">CREATE NEWS</button>

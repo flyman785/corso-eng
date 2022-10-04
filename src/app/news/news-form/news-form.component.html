@@ -1,0 +1,10 @@
+<p>News Form</p>
+<div [formGroup]="form">
+    <label>Title</label>
+    <input type="text" formControlName="title" />
+    <br>
+    <label>Description</label>
+    <input type="text" formControlName="description" />
+</div>
+<br>
+<button (click)="saveModel()">SAVE</button>

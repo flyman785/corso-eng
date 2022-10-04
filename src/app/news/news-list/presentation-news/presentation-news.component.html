@@ -1,0 +1,7 @@
+<div *ngFor="let item of (news | async); let last = last">
+  <label>{{item.title | stringTruncate}}</label>
+  <h3>{{item.description}}</h3>
+  <button [routerLink]="[item.id]">Edit News</button>
+  <button (click)="deleteNews(item.id)">Delete News</button>
+  <hr *ngIf="!last">
+</div>
