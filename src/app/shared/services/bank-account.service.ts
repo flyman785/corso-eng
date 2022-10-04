@@ -29,7 +29,10 @@ export class BankAccountService {
       }),
       map(v => v + value),
       tap(res => this.balance$.next(res)),
-      mapTo('Deposito effettuato')
+      mapTo('Deposito effettuato'),
+      catchError(err => {
+        return throwError(err)
+      })
     );
   }
 
