@@ -47,7 +47,7 @@ export class BankAccountService {
       }),
       map(v => v - value),
       map(res => {
-        if (value > this.balanceValue) {
+        if (value > res) {
           throw new Error('non hai abbastanza soldi');
         } else {
           this.balance$.next(res);
