@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, throwError} from "rxjs";
-import {catchError, filter, first, map, mapTo, tap} from "rxjs/operators";
+import {catchError, first, map, mapTo, tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BankAccountService {
-  private balance$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private readonly balance$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor() { }
 
@@ -18,23 +18,33 @@ export class BankAccountService {
     return this.balance$.getValue();
   }
 
-  deposit(value: string): Observable<string> {
+  deposit(value: number): Observable<string> {
     return this.balance.pipe(
       first(),
-      filter(_ => !!value),
-      map(v => v + parseInt(value, 10)),
+      tap(_ => {
+        if (value > 0) {
+          return;
+        }
+        throw new Error('Hai inserito un valore errato');
+      }),
+      map(v => v + value),
       tap(res => this.balance$.next(res)),
       mapTo('Deposito effettuato')
     );
   }
 
-  whitDraw(value: string): Observable<string> {
+  whitDraw(value: number): Observable<string> {
     return this.balance.pipe(
       first(),
-      filter(_ => !!value),
-      map(v => v - parseInt(value, 10)),
+      tap(_ => {
+        if (value > 0) {
+          return;
+        }
+        throw new Error('Hai inserito un valore errato');
+      }),
+      map(v => v - value),
       map(res => {
-        if (parseInt(value, 10) > this.balanceValue) {
+        if (value > this.balanceValue) {
           throw new Error('non hai abbastanza soldi');
         } else {
           this.balance$.next(res);
