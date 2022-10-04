@@ -1,6 +1,10 @@
 <nav>
-    <!-- <a *ngIf="(authService.isLoggedIn$ | async) === false" routerLink="/login">Login</a> -->
-    <a routerLink="/login">Login</a>
+    <ng-container *ngIf="(isLogged | async) === false; else logOut">
+       <a routerLink="/login">Login</a>
+    </ng-container>
+    <ng-template #logOut>
+      <button (click)="logout()">Logout</button>
+    </ng-template>
     <br>
     <a routerLink="/news-list">News List</a>
     <br>
