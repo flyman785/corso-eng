@@ -1,0 +1,8 @@
+<p>Il tuo saldo attuale è: {{ money$ | async }}</p>
+<div [formGroup]="form">
+  <input formControlName="soldi" type="number" />
+</div>
+<button (click)="dep()">DEPOSITA</button>
+<button (click)="pre()">PRELEVA</button>
+
+<span>{{ response }}</span>

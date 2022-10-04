@@ -9,4 +9,6 @@
     <a routerLink="/news-list">News List</a>
     <br>
     <a routerLink="/category-list">Category List</a>
+    <br>
+    <a *ngIf="(isLogged | async) === true;" routerLink="/bank-account">Bank Account</a>
 </nav>

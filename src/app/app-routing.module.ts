@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () => import('./news/news.module').then(m => m.NewsModule)
   },
   {
+    path: 'bank-account',
+    canActivate: [OnlyUsersGuard],
+    loadChildren: () => import('./balance/balance.module').then(m => m.BalanceModule)
+  },
+  {
     path: 'category-list',
     component: CategoryListComponent
   },
