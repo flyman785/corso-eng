@@ -18,16 +18,16 @@ export class NewsStoreService {
     return this._newsList$.getValue();
   }
 
-  set updateAllElements(newList: NewsModel[]) {
+  set updateAllNews(newList: NewsModel[]) {
     this._newsList$.next(newList);
   }
 
-  set updateList(value: NewsModel | NewsModel[]) {
-    this.updateAllElements = this.newsList.concat(value);
+  set updateNews(value: NewsModel | NewsModel[]) {
+    this.updateAllNews = this.newsList.concat(value);
   }
 
   set updateElement(data: NewsModel) {
-    this.updateAllElements = [...this.newsList].map((item) => {
+    this.updateAllNews = [...this.newsList].map((item) => {
       if (item.id === data.id) {
         return data;
       }
@@ -36,6 +36,6 @@ export class NewsStoreService {
   }
 
   set removeElement(id: number) {
-    this.updateAllElements = [...this.newsList].filter(item => item.id !== id);
+    this.updateAllNews = [...this.newsList].filter(item => item.id !== id);
   }
 }

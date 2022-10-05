@@ -41,11 +41,6 @@ export class NewsFormComponent implements OnInit, OnDestroy {
             title: res.title,
             description: res.description
           });
-          // this.newsStoreService.updateElement = {
-          //   title: res.title,
-          //   description: res.description,
-          //   id: this.id as number
-          // };
         })
       )
       .subscribe();
@@ -77,7 +72,7 @@ export class NewsFormComponent implements OnInit, OnDestroy {
             this.router.navigate(['..'], {
               relativeTo: this.route
             });
-            this.newsStoreService.updateList = payload;
+            this.newsStoreService.updateNews = payload;
           })
         ).subscribe();
     }
