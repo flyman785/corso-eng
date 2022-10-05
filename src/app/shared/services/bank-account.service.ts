@@ -14,10 +14,6 @@ export class BankAccountService {
     return this.balance$.asObservable();
   }
 
-  get balanceValue(): number {
-    return this.balance$.getValue();
-  }
-
   deposit(value: number): Observable<string> {
     return this.balance.pipe(
       first(),
