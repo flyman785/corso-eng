@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { NewsService } from '../../shared/services/news.service';
+import {NewsStoreService} from "../../shared/services/news-store.service";
 
 @Component({
   selector: 'app-news-form',
@@ -12,14 +13,15 @@ import { NewsService } from '../../shared/services/news.service';
 })
 export class NewsFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  id?: string | null;
+  id?: number | null;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private newsService: NewsService,
-    private router: Router
+    private router: Router,
+    private newsStoreService: NewsStoreService
   ) {
     this.form = this.formBuilder.group({
       title: [],
@@ -30,15 +32,20 @@ export class NewsFormComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter(paramMap => !!paramMap.has('id')),
-        tap(paramMap => this.id = paramMap.get('id')),
+        tap(paramMap => this.id = parseInt(paramMap.get('id') as string, 10)),
         switchMap(_ => {
-          return this.newsService.getSingle(this.id as string);
+          return this.newsService.getSingle(this.id as number);
         }),
         tap(res => {
           this.form.patchValue({
             title: res.title,
             description: res.description
           });
+          // this.newsStoreService.updateElement = {
+          //   title: res.title,
+          //   description: res.description,
+          //   id: this.id as number
+          // };
         })
       )
       .subscribe();
@@ -49,15 +56,16 @@ export class NewsFormComponent implements OnInit, OnDestroy {
 
   saveModel(): void {
     const {title, description} = this.form.getRawValue();
-    const payload = {title, description, id: this.id as string};
+    const payload = {title, description, id: this.id as number};
 
     if (!!this.id) {
-      this.newsService.updateNews(this.id as string, payload).pipe(
+      this.newsService.updateNews(this.id as number, payload).pipe(
         takeUntil(this.destroy$),
         tap(_ => {
           this.router.navigate(['..'], {
             relativeTo: this.route
           });
+          this.newsStoreService.updateElement = payload;
         })
       ).subscribe();
     } else {
@@ -66,9 +74,10 @@ export class NewsFormComponent implements OnInit, OnDestroy {
           takeUntil(this.destroy$),
           tap(res => {
             this.id = res.id;
-            this.router.navigate(['..', res.id], {
+            this.router.navigate(['..'], {
               relativeTo: this.route
             });
+            this.newsStoreService.updateList = payload;
           })
         ).subscribe();
     }

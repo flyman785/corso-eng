@@ -4,6 +4,9 @@
     <input formControlName="search" />
 </form>
 <br>
-<app-presentation-news [news]="news$" (remove)="removeHandler($event)"></app-presentation-news>
+<div style="display: flex; flex-direction: row;">
+  <app-presentation-news [news]="news$" (remove)="removeHandler($event)"></app-presentation-news>
+  <router-outlet></router-outlet>
+</div>
 <br>
 <button [routerLink]="['create']">CREATE NEWS</button>

@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
 export interface NewsModel {
-    id: string;
+    id: number;
     title: string;
     description: string;
 }
@@ -30,13 +30,13 @@ export class NewsService {
         );
     }
 
-    getSingle(id: string): Observable<NewsModel> {
+    getSingle(id: number): Observable<NewsModel> {
         return this.httpClient.get<NewsModel>(
             environment.fakeServer + '/news/' + id
         );
     }
 
-    updateNews(id: string, payload: NewsModel): Observable<NewsModel> {
+    updateNews(id: number, payload: NewsModel): Observable<NewsModel> {
         return this.httpClient.put<NewsModel>(
             environment.fakeServer + '/news/' + id,
             payload
@@ -50,7 +50,7 @@ export class NewsService {
         );
     }
 
-    deleteNews(id: string): Observable<unknown> {
+    deleteNews(id: number): Observable<unknown> {
       return this.httpClient.delete(
         environment.fakeServer + '/news/' + id
       )
