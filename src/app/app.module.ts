@@ -10,7 +10,7 @@ import { CategoryListComponent } from './category-list/category-list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
+import { authReducer } from './reducers/auth/auth';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
@@ -27,8 +27,8 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     SharedModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers
+    StoreModule.forRoot({
+      auth: authReducer
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],

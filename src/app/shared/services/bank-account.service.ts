@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, throwError} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {catchError, first, map, mapTo, tap} from "rxjs/operators";
+import {Store} from "@ngrx/store";
+import {Bank, depositAction, whitDrawAction} from "../../reducers/bank/bank";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BankAccountService {
-  private readonly balance$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private readonly balance$ = this.store.select('amount');
 
-  constructor() { }
+  constructor(
+    private store: Store<Bank>
+  ) { }
 
   get balance(): Observable<number> {
-    return this.balance$.asObservable();
+    return this.balance$;
   }
 
   deposit(value: number): Observable<string> {
@@ -23,8 +27,7 @@ export class BankAccountService {
         }
         throw new Error('Hai inserito un valore errato');
       }),
-      map(v => v + value),
-      tap(res => this.balance$.next(res)),
+      tap(res => this.store.dispatch(depositAction({amount: value}))),
       mapTo('Deposito effettuato'),
       catchError(err => {
         return throwError(err)
@@ -41,14 +44,13 @@ export class BankAccountService {
         }
         throw new Error('Hai inserito un valore errato');
       }),
-      map(v => v - value),
-      map(res => {
-        if (value > res) {
-          throw new Error('non hai abbastanza soldi');
-        } else {
-          this.balance$.next(res);
+      map(_ => {
+        // if (value > res) {
+        //   throw new Error('non hai abbastanza soldi');
+        // } else {
+          this.store.dispatch(whitDrawAction({amount: value}))
           return 'prelievo effettuato';
-        }
+        // }
       }),
       catchError(err => {
         return throwError(err)
