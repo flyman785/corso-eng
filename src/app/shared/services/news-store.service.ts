@@ -9,7 +9,6 @@ import {
   NewsState,
   selectNewsList, updateNewsAction
 } from "../../reducers/news/news";
-import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class NewsStoreService {
   ) { }
 
   get newsList$(): Observable<NewsModel[]> {
-    return this._newsList$.pipe(tap(console.log));
+    return this._newsList$;
   }
 
   set filterNews(filterList: NewsModel[]) {
