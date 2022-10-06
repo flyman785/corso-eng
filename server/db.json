@@ -9,12 +9,7 @@
   ],
   "news": [
     {
-      "title": "pippo 8",
-      "description": "prova 8",
-      "id": 2
-    },
-    {
-      "title": "prova 2",
+      "title": "prova asd",
       "description": "testo desc 2",
       "id": 5
     },
@@ -57,6 +52,11 @@
       "title": "shjf",
       "description": "45554",
       "id": 13
+    },
+    {
+      "title": "prova olè",
+      "description": "dfgfdgfdg",
+      "id": 14
     }
   ],
   "authors": [

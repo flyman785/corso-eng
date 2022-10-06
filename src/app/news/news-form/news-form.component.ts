@@ -60,7 +60,7 @@ export class NewsFormComponent implements OnInit, OnDestroy {
           this.router.navigate(['..'], {
             relativeTo: this.route
           });
-          this.newsStoreService.updateElement = payload;
+          this.newsStoreService.updateNews = payload;
         })
       ).subscribe();
     } else {
@@ -72,7 +72,7 @@ export class NewsFormComponent implements OnInit, OnDestroy {
             this.router.navigate(['..'], {
               relativeTo: this.route
             });
-            this.newsStoreService.updateNews = payload;
+            this.newsStoreService.addNews = payload;
           })
         ).subscribe();
     }

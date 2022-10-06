@@ -35,7 +35,7 @@ export class NewsListComponent extends Destroyer {
         switchMap(value => {
           return this.newsService.searchNews(value);
         }),
-        tap(res => this.newsStoreService.updateAllNews = res)
+        tap(res => this.newsStoreService.filterNews = res)
       )
       .subscribe();
 

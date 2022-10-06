@@ -10,9 +10,11 @@ import { CategoryListComponent } from './category-list/category-list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { StoreModule } from '@ngrx/store';
-import { authReducer } from './reducers/auth/auth';
+import {reducers} from './reducers/auth/auth';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import {LoginEffectsService} from "./shared/effetcs/login-effects.service";
 
 @NgModule({
   declarations: [
@@ -27,10 +29,9 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     SharedModule,
     HttpClientModule,
-    StoreModule.forRoot({
-      auth: authReducer
-    }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([LoginEffectsService])
   ],
   providers: [],
   bootstrap: [AppComponent]

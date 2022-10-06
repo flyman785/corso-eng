@@ -7,7 +7,7 @@ import {NewsFormComponent} from "./news-form/news-form.component";
 import {SharedModule} from "../shared/shared.module";
 import { PresentationNewsComponent } from './news-list/presentation-news/presentation-news.component';
 import {StoreModule} from "@ngrx/store";
-import {newsReducer} from "../reducers/news/news";
+import {newsFeature} from "../reducers/news/news";
 
 
 @NgModule({
@@ -16,10 +16,7 @@ import {newsReducer} from "../reducers/news/news";
     CommonModule,
     NewsRoutingModule,
     SharedModule,
-    StoreModule.forFeature({
-      name: 'newsList',
-      reducer: newsReducer
-    })
+    StoreModule.forFeature(newsFeature)
   ]
 })
 export class NewsModule { }

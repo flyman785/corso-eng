@@ -11,7 +11,7 @@ export class OnlyUsersGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      this.authService.redirectUrl = state.url;
+      this.authService.redirect = state.url;
     return this.authService.isLoggedIn;
   }
 

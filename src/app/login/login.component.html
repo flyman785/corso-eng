@@ -1,2 +1,12 @@
-<p>welcome to login button!</p>
-<button (click)="login()">LOGIN</button>
+<p>welcome to login form!</p>
+<form style="display: flex; flex-direction: column;" [formGroup]="form" (ngSubmit)="login()">
+  <ng-container>
+    <label>Email: </label>
+    <input type="email" formControlName="email">
+  </ng-container>
+  <ng-container>
+    <label>Password: </label>
+    <input type="text" formControlName="password">
+  </ng-container>
+  <button type="submit">LOGIN</button>
+</form>

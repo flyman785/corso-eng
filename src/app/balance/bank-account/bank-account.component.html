@@ -5,4 +5,6 @@
 <button (click)="dep()">DEPOSITA</button>
 <button (click)="pre()">PRELEVA</button>
 
-<span>{{ response }}</span>
+<ng-container *ngIf="(error$ | async) as error">
+  <span>{{ error }}</span>
+</ng-container>

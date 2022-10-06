@@ -3,7 +3,6 @@ import {Observable} from "rxjs";
 import {BankAccountService} from "../../shared/services/bank-account.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Destroyer} from "../../shared/utils/destroyer";
-import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-bank-account',
@@ -13,8 +12,8 @@ import {takeUntil} from "rxjs/operators";
 })
 export class BankAccountComponent extends Destroyer {
   money$?: Observable<number>;
+  error$?: Observable<string>
   form: FormGroup;
-  response?: string;
 
   constructor(
     private bankAccountService: BankAccountService,
@@ -22,6 +21,8 @@ export class BankAccountComponent extends Destroyer {
   ) {
     super();
     this.money$ = this.bankAccountService.balance;
+    this.error$ = this.bankAccountService.error;
+
     this.form = this.formBuilder.group({
       soldi: [null, [Validators.required]]
     })
@@ -29,33 +30,11 @@ export class BankAccountComponent extends Destroyer {
 
   dep(): void {
     const value = this.form.get('soldi')?.value;
-    this.bankAccountService.deposit(parseInt(value, 10))
-      .pipe(
-        takeUntil(this.destroy$),
-      )
-      .subscribe({
-        next: (res) => {
-          this.form.get('soldi')?.reset();
-          this.response = res;
-        },
-        error: (err) => this.response = err,
-        complete: () => {}
-      });
+    this.bankAccountService.deposit(parseInt(value, 10));
   }
 
   pre(): void {
     const value = this.form.get('soldi')?.value;
-    this.bankAccountService.whitDraw(parseInt(value, 10))
-      .pipe(
-        takeUntil(this.destroy$),
-      )
-      .subscribe({
-        next: (res) => {
-          this.form.get('soldi')?.reset();
-          this.response = res;
-        },
-        error: (err) => this.response = err,
-        complete: () => {}
-      });
+    this.bankAccountService.whitDraw(parseInt(value, 10));
   }
 }

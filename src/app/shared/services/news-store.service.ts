@@ -2,45 +2,42 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {NewsModel} from "./news.service";
 import {Store} from "@ngrx/store";
-import {addNewsAction, getNews, NewsState} from "../../reducers/news/news";
-import {map, tap} from "rxjs/operators";
+import {
+  addNewsAction,
+  deleteNewsAction,
+  filterListAction,
+  NewsState,
+  selectNewsList, updateNewsAction
+} from "../../reducers/news/news";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsStoreService {
-  private readonly _newsList$ = this.store.select(getNews);
+  private readonly _newsList$ = this.store.select(selectNewsList);
 
   constructor(
     private store: Store<NewsState>
   ) { }
 
   get newsList$(): Observable<NewsModel[]> {
-    return this._newsList$;
+    return this._newsList$.pipe(tap(console.log));
   }
 
-  // get newsList(): NewsModel[] {
-    // return this._newsList$.getValue();
-  // }
-
-  set updateAllNews(newList: NewsModel[]) {
-    this.store.dispatch(addNewsAction({ newsList: newList }));
+  set filterNews(filterList: NewsModel[]) {
+    this.store.dispatch(filterListAction({ filterList: filterList }));
   }
 
-  set updateNews(value: NewsModel | NewsModel[]) {
-    // this.updateAllNews = this.newsList.concat(value);
+  set updateNews(data: NewsModel) {
+    this.store.dispatch(updateNewsAction(data));
   }
 
-  set updateElement(data: NewsModel) {
-    // this.updateAllNews = [...this.newsList].map((item) => {
-    //   if (item.id === data.id) {
-    //     return data;
-    //   }
-    //   return item;
-    // });
+  set addNews(data: NewsModel) {
+    this.store.dispatch(addNewsAction(data));
   }
 
   set removeElement(id: number) {
-    // this.updateAllNews = [...this.newsList].filter(item => item.id !== id);
+    this.store.dispatch(deleteNewsAction({ id }));
   }
 }

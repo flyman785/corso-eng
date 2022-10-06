@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
+import {AuthService, LoginPayload} from '../shared/services/auth.service';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -7,15 +8,24 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  form: FormGroup;
 
   constructor(
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private formBuilder: FormBuilder
+  ) {
+    this.form = this.formBuilder.group({
+      email: [],
+      password: []
+    });
+  }
 
   ngOnInit(): void {
   }
 
   login(): void {
-    this.authService.login();
+    const {email, password} = this.form.getRawValue();
+    const payload: LoginPayload = {email, password};
+    this.authService.login(payload);
   }
 }
