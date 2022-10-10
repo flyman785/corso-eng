@@ -9,7 +9,7 @@ export enum NewsAction {
   AddNewsToList = '[Add News Form] Add News To List',
   FilterList = '[News Page] Filter List',
   DeleteNews = '[News Page] Click Delete Button',
-  UpdateNews = '[Edit News Form] Click Sabe Button'
+  UpdateNews = '[Edit News Form] Click Save Button'
 }
 
 export const addNewsAction = createAction(
